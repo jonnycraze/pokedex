@@ -1,18 +1,45 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container">
+    <h1 class="h3">
+      Jon's Pokedex
+    </h1>
+    <pokemon-search />
+    <pokemon-list v-if="filteredResults" :data="filteredResults" :filter-by="filterBy" />
+    <pokemon-information v-else />
+    <!-- 
+      sidebar
+        recent searches
+        recent selections
+    -->
+    <!-- 
+      main window
+        selected pokemon
+          clicking evolution selects that pokemon
+    -->
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import { mapGetters } from 'vuex';
+import Search from '@/components/search';
+import Information from '@/components/information';
+import List from '@/components/list';
 
 export default {
   name: 'Home',
   components: {
-    HelloWorld
+    [Search.name]: Search,
+    [Information.name]: Information,
+    [List.name]: List,
+  },
+  computed: {
+    ...mapGetters(['activePokemon', 'filteredResults', 'filterBy']),
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.container {
+  padding: 6rem 4rem;
+}
+</style>
